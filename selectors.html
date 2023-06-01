@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <style>
+
+        section {
+            height: 300px;
+        }
+
+        #s1 {
+
+            background-color: lightskyblue;
+        }
+
+        #s2 {
+
+            background-color: lightsalmon;
+        }
+
+        #s3 {
+
+            background-color: lightcoral;
+        }
+        #click2{
+            display: none;
+        }
+        #click3{
+            visibility: hidden;
+            
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-2"></div>
+            <div class="col-8 ">
+                <h2>jQuery練習</h2>
+                <div id="div1">
+                    
+                </div>
+                <h3>屬性選擇器</h3>
+                <ul class="list-unstyled">
+                    <li><a href="jQuery.pdf">講義下載(PDF)</a></li>
+                    <li><a href="jQuery.pptx">講義下載(PPT)</a></li>
+                </ul>
+                <h3>階層選擇器</h3>
+                <table class="simpleTable">
+                    <tr>
+                        <td>A</td>
+                        <td>B</td>
+                        <td>C</td>
+                    </tr>
+                    <tr>
+                        <td>D</td>
+                        <td>E</td>
+                        <td>F</td>
+                    </tr>
+                    <tr>
+                        <td>G</td>
+                        <td>H</td>
+                        <td>I</td>
+                    </tr>
+                    <tr>
+                        <td>J</td>
+                        <td>K</td>
+                        <td>L</td>
+                    </tr>
+                    <tr>
+                        <td>M</td>
+                        <td>N</td>
+                        <td>O</td>
+                    </tr>
+                </table>
+                <input type="text" class="my-3"><span></span><span></span>
+                <section id="s1">section1
+                    <input type="button" value="button" disabled>
+                    <input type="checkbox" name="" id="">
+                    <input type="checkbox" name="" id="">
+                    <div></div>
+                    <div>
+                        <p>div2</p>
+                    </div>
+                </section>
+                <section id="s2">section2</section>
+                <section id="s3">section3
+                    <button >click1</button><span></span>
+                    <button id="click2">click2</button><span></span>
+                    <click3 id="click3">click3</button><span></span>
+                </section>
+
+                
+
+            </div>
+            <div class="col-2"></div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"
+        integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
+        <script>
+            $(function(){
+                $('a[href$=".pdf"]').css({
+                    'text-decoration':'none',
+                    // 'background-color':'yellow'
+                    'background':'url(images/pdf.png) no-repeat',
+                    'background-size':'16px',
+                    'padding-left':'20px'
+
+                })
+                $('a[href$=".pptx"]').css({
+                    // 'background-color':'orange'
+                    'background':'url(images/pptx.png) no-repeat',
+                    'background-size':'16px',
+                    'padding-left':'20px'
+                })
+
+                // 階層選擇器
+                $('.simpleTable').css({
+                    'width':'400px',
+                    'border':'1px solid green'
+                })
+                $('.simpleTable td').css({
+                    'border':'1px solid green'
+                })
+
+                $('input[type="text"]+span').text('請輸入')
+
+                // 基本篩選選擇器
+                $(':header:not(h2)').css({
+                    'background-color':'silver',
+                    'padding':'5px',
+                })
+                $(':focus').css({
+                    'background-color':'lightblue',
+                })
+                $(':target').css({
+                    'background-color':'lightblue',
+                })
+                $('#s1>div:empty').text("div1")
+                $('#s1>div:has("p")').css('background-color', 'green')
+
+                // child filter選擇
+                // $('.simpleTable td:nth-child(2n)').css({
+                //     'background-color':'yellow'
+                // })
+                // $('.simpleTable td:nth-child(2n+1)').css({
+                //     'background-color':'orange'
+                // })
+                $('.simpleTable tr:nth-child(2n)').css({
+                    'background-color':'aquamarine'
+                })
+                $('.simpleTable tr:nth-child(2n+1)').css({
+                    'background-color':'#abb3ff'
+                })
+
+                //visibility filter
+                $('button:hidden+span').text('hidden')
+            })
+        </script>
+</body>
+</html>
