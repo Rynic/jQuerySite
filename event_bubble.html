@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <style>
+        #div1{
+            background-color: aqua;
+            height: 300px;
+            width:500px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-2"></div>
+            <div class="col-8">
+                <h2>jQuery練習</h2>
+                <div id="div1">
+                    <h2>write less, do more</h2>
+                </div>
+            </div>
+            <div class="col-2"></div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"
+        integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
+        <script>
+            $(function(){
+                // 事件氣泡發生
+                // $('.container').on('mouseover',()=>{
+                //     console.log('container:mouseover')
+                // })
+                // $('#div1').on('mouseover',()=>{
+                //     console.log('div1:mouseover')
+                // })
+                // $('#div1>h2').on('mouseover',()=>{
+                //     console.log('h2:mouseover')
+                // })
+                
+                // $('.container').on('mouseout',()=>{
+                //     console.log('container:mouseout')
+                // })
+                // $('#div1').on('mouseout',()=>{
+                //     console.log('div:mouseout')
+                // })
+                // $('#div1>h2').on('mouseout',()=>{
+                //     console.log('h2:mouseout')
+                // })
+
+                // 無事件氣泡發生
+                $('.container').on('mouseenter',()=>{
+                    console.log('container:mouseenter')
+                })
+                $('#div1').on('mouseenter',()=>{
+                    console.log('div1:mouseenter')
+                })
+                $('#div1>h2').on('mouseenter',()=>{
+                    console.log('h2:mouseenter')
+                })
+                
+                $('.container').on('mouseleave',()=>{
+                    console.log('container:mouseleave')
+                })
+                $('#div1').on('mouseleave',()=>{
+                    console.log('div:mouseleave')
+                })
+                $('#div1>h2').on('mouseleave',()=>{
+                    console.log('h2:mouseleave')
+                })
+            })
+        </script>
+</body>
+</html>

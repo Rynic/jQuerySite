@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <style>
+        body {
+            height: 300vh;
+        }
+
+        #div1 {
+            width: 150px;
+            height: 150px;
+            background-color: aquamarine;
+            top: 300px;
+            left: 300px;
+            position: absolute;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-2"></div>
+            <div class="col-8">
+                <h2>jQuery練習</h2>
+                <input type="text" id="text1">
+                <div id="div1"></div>
+            </div>
+            <div class="col-2"></div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"
+        integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
+    <script>
+        $(function () {
+            $('#text1').on('keypress', (event) => {
+                console.log(event);
+                console.log(event.key);
+                console.log(event.keyCode);
+                // keydown事件
+                // a-z 65-90
+                // 0-9 48-57
+                // A-z 65-90
+
+                // shift、ctrl、enter、tab
+
+                // KEYPRESS
+                // A-Z 65-90
+                // a-z 97-122
+
+                // shift、ctrl、enter、tab
+
+            })
+            // $('#div1').on('click',(event)=>{
+            //     console.log(event.offsetX);
+            //     // offsetX、offsetY 以div左上角當成0,0來計算位置
+            //     // screenX、screenY 以螢幕左上角當成0,0來計算位置
+            //     // pageX、pageY 以瀏覽器左上角當成0,0來計算位置
+            //     // clientX、clientY 以可視範圍左上角當成0,0來計算位置
+            // })
+            let startX, startY, divLeft, divTop, flag = false;
+            $('#div1').on({
+                'mousedown': function(event) {
+                    flag = true;
+                    // console.log("clientXY:", event.clientX, event.clientY);
+                    // console.log("divXY:", $(this).offset().top, $(this).offset().left);
+                    startX = event.clientX;
+                    startY = event.clientY;
+                    divLeft = $(this).offset().left;
+                    divTop = $(this).offset().top;
+
+
+                },
+                'mouseup': function(event) {
+                    flag: false;
+                },
+                'mousemove': function(event) {
+                    if(flag){
+                        const moveX = divLeft +(event.clientX -startX);
+                        const moveY = divTop +(event.clientY -startY);
+                        $(this).css({
+                            'left':moveX,
+                            'top':moveY
+                        })
+                    }
+
+                }
+            })
+        })
+    </script>
+</body>
+
+</html>
