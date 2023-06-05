@@ -29,7 +29,15 @@
             <div class="col-2"></div>
             <div class="col-8">
                 <h2>jQuery練習</h2>
-                <input type="text" id="text1">
+                <form action="get.php" method="get">
+                    <!-- get.php?userName=abc&key=value&key=value -->
+                    <input type="text" id="text1" name="userName" placeholder="請輸入姓名">
+                    <input type="text" id="text2" name="age" placeholder="請輸入年紀">
+                    <input type="submit" id="submit1" value="送出">
+                    <button id="button1">submit</button>
+                </form>
+                <a href="https://www.ispan.com.tw" id="link1" onclick="return window.confirm('要去嗎?')">iSpan</a>
+
                 <div id="div1"></div>
             </div>
             <div class="col-2"></div>
@@ -67,7 +75,11 @@
             // })
             let startX, startY, divLeft, divTop, flag = false;
             $('#div1').on({
-                'mousedown': function(event) {
+                'mousedown': function (event) {
+                    console.log(event.button);
+                    // 0 滑鼠左鍵
+                    // 1 滾輪
+                    // 2 滑鼠右鍵
                     flag = true;
                     // console.log("clientXY:", event.clientX, event.clientY);
                     // console.log("divXY:", $(this).offset().top, $(this).offset().left);
@@ -78,22 +90,43 @@
 
 
                 },
-                'mouseup': function(event) {
-                    flag: false;
+                'mouseup': function (event) {
+                    flag = false;
                 },
-                'mousemove': function(event) {
-                    if(flag){
-                        const moveX = divLeft +(event.clientX -startX);
-                        const moveY = divTop +(event.clientY -startY);
+                'mousemove': function (event) {
+                    if (flag) {
+                        const moveX = divLeft + (event.clientX - startX);
+                        const moveY = divTop + (event.clientY - startY);
                         $(this).css({
-                            'left':moveX,
-                            'top':moveY
+                            'left': moveX,
+                            'top': moveY
                         })
                     }
 
                 }
             })
+            $('#submit1').on('click', function (event) {
+                event.preventDefault();
+                if ($('#text1').val() === "") {
+                    alert("請輸入姓名");
+                }else{
+                    $('form').submit();
+                }
+            })
+            // $('#link1').on('click', function (event) {
+
+            //     if (!window.confirm("真的要去嗎")) {
+            //         event.preventDefault();
+            //         // return false;
+            //     }
+                
+            $("#button1").on('click',function(event){
+                event.preventDefault();
+            })
+            // })
+
         })
+
     </script>
 </body>
 
