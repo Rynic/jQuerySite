@@ -12,6 +12,25 @@
             color: #949494;
             text-decoration: line-through;
         }
+
+        .s1 {
+            color: orange;
+            text-decoration: underline;
+            border: 1px solid red;
+            text-align: center;
+            background-color: green;
+            width: 400px;
+        }
+
+        .s2 {
+            color: rgb(0, 255, 64);
+            text-decoration: none;
+            border: 1px solid rgb(255, 251, 0);
+            text-align: center;
+            background-color: red;
+            width: 400px;
+            border-radius: 30px;
+        }
     </style>
 </head>
 
@@ -20,7 +39,10 @@
         <div class="row">
             <div class="col-2"></div>
             <div class="col-8">
-                <h2>jQuery練習</h2>
+                <h2 id="myH">jQuery練習</h2>
+                <a href="effect.html">effect</a> | <a href="events.html">events</a> | <a
+                    href="https://www.ispan.com.tw">iSpan</a> | <a href="https://www.yahoo.com.tw">Yahoo</a>
+                <hr>
                 <input type="text" id="userName">
                 <input type="button" id="buttonAdd" value="add">
                 <ul id="names">
@@ -28,6 +50,37 @@
                     <li class="completed">Guest2</li>
                     <li>Guest3</li>
                 </ul>
+
+                <select name="" id="select1">
+                    <option value="a">Item1</option>
+                    <option value="b">Item2</option>
+                    <option value="c">Item3</option>
+                    <option value="d">Item4</option>
+                </select>
+                <span id="span1"></span>
+                <hr>
+                <div class="" id="div2">
+                    <input type="button" id="toggleCheckbox" value="check的切換">
+                    <input type="checkbox" id="toggle">toggle all<br>
+                    <input type="checkbox" name="a" value="a1">A1
+                    <input type="checkbox" name="a" value="a2">A2
+                    <input type="checkbox" name="a" value="a3">A3
+                    <input type="checkbox" name="a" value="a4">A4
+                    <input type="checkbox" name="a" value="a5">A5
+                    <input type="button" id="buttonChecked" value="取出打勾的checkbox value">
+                    <span id="span2"></span>
+
+                </div>
+                <hr>
+                <div>
+                    <input type="button" value="切換樣式" id="classToggle">
+                    <h1 id="theH">write less, do more</h1>
+                    <h1>write less, do more</h1>
+                    <h1>write less, do more</h1>
+                    <h1>write less, do more</h1>
+                </div>
+
+
             </div>
             <div class="col-2"></div>
         </div>
@@ -46,6 +99,17 @@
                 $(this).toggleClass('completed');
             })
 
+            // $('#myH').append("do more")
+            //         .prepend("write less")
+            //         .after("<u>h2結束標籤的後面</u>")
+            //         .before("h2開始標籤的前面")
+
+            $("<u>h2結束標籤的前面</u>").insertBefore(myH);
+            $("<u>h2結束標籤的後面</u>").insertAfter(myH);
+            $("<i>do more</i>").appendTo(myH);
+            $("<i>write less</i>").prependTo(myH);
+            $('#myH').remove();
+
             // 移除
             // $('#names').empty();
             // $('#names>li:nth-child(1)').remove();
@@ -53,10 +117,75 @@
             // each()
             // console.log($('#names>li').length);
             $('#names>li').each(function () {
-                if ($(this).hasClass('completed')){
+                if ($(this).hasClass('completed')) {
                     $(this).remove();
-            }
-        })
+                }
+            })
+
+            $('#select1').on('change', function (event) {
+                // $('#span1').text($(this).val());
+                // console.log($('option').attr("value"))
+                const opt = $('#select1>:selected');
+                const text = opt.text();
+                const value = opt.val();
+                const index = opt.index();
+                $('#span1').text(`${index}-${value}-${text}`);
+            })
+
+            $('a[href^="http"]').attr('target', '_blank');
+
+            // $('a').on('click', function (event) {
+            // if ($('a').attr('href').indexOf("http") == 0) {
+            //     $('a').attr('target', '_blank')
+            // }               
+            // })
+            // console.log($('#div2>:checkbox:nth-child(1)').prop('checked'));
+            // console.log($('#div2>:checkbox:nth-child(2)').prop('checked'));
+            // console.log($('#div2>:checkbox:nth-child(3)').prop('checked'));
+            // console.log($('#div2>:checkbox:nth-child(4)').prop('checked'));
+            // console.log($('#div2>:checkbox:nth-child(5)').prop('checked'));
+            $('#toggle').on('change', function () {
+                const b = $(this).prop('checked');
+                $(':checkbox[name="a"]').prop('checked', b)
+            })
+            $('h1').addClass('s1').on({
+                'mouseenter': function () {
+                    $(this).removeClass('s1').addClass('s2');
+                },
+                'mouseleave': function () {
+                    $(this).removeClass('s2').addClass('s1');
+                }
+            })
+            $('#classToggle').on('click', function () {
+                // const theH=$('#theH');
+                // if(theH.hasClass('s2'){
+                //     theH.removeClass('s2')
+                // }else{
+                //     theH.addClass('s2')
+                // }
+                $('#theH').toggleClass('s2')
+
+            })
+            $('#toggleCheckbox').on('click', function () {
+                $(':checkbox[name="a"]').each(function () {
+                    const b = !$(this).prop('checked');
+                    $(this).prop('checked', b)
+                })
+            })
+            $('#buttonChecked').on('click', function () {
+                const theSpan = $('#span2');
+                let data = [];
+                $(':checked[name="a"]').each(function () {
+                    data.push($(this).val());
+                    
+                })
+                theSpan.append(data.join(", "));
+
+            })
+
+
+
+
 
         })
 
