@@ -32,6 +32,8 @@
                             </div>
                             <button class="badge bg-danger rounded-pill border-0">X</button>
                         </div>
+                        <input type="text" class="form-control d-none" value="aaaa">
+
                     </li>
                     <li class="list-group-item">
                         <div class="d-flex justify-content-between">
@@ -41,6 +43,8 @@
                             </div>
                             <button class="badge bg-danger rounded-pill border-0">X</button>
                         </div>
+                        <input type="text" class="form-control d-none" value="aaaa">
+
                     </li>
                     <li class="list-group-item">
                         <div class="d-flex justify-content-between">
@@ -50,6 +54,7 @@
                             </div>
                             <button class="badge bg-danger rounded-pill border-0">X</button>
                         </div>
+                        <input type="text" class="form-control d-none" value="aaaa">
                     </li>
                 </ul>
                 <div id="summaryTodo" class="mt-3 d-flex justify-content-between">
@@ -67,9 +72,10 @@
     <script>
         $(document).ready(function () {
             // 新增工作
-            $('#addTodo').on('change', () => {
-                const newTodo = $('#addTodo').val();
-                $('#listTodo').append(`
+            $('#addTodo').on('keypress', function () {
+                if (event.keyCode === 13) {
+                    const newTodo = $(this).val();
+                    const datas = `
                 <li class="list-group-item">
                     <div class="d-flex justify-content-between">
                         <div>
@@ -78,37 +84,61 @@
                         </div>
                         <button class="badge bg-danger rounded-pill border-0">X</button>
                     </div>
-                </li>`);
-                $('#addTodo').val("");
-            })
+                    <input type="text" class="form-control d-none" value="aaaa">
 
-            // 將工作設為完成/未完成
-            $('#listTodo').on('click','input', function () {
-                $(this).parent().children('label').toggleClass('completed');
+                </li>`;
+                    $(datas).hide().appendTo('#listTodo').slideDown(500);
+                    $(this).val("");
+                    countTodo();
+                }
+
             })
+            const listTodo = $('#listTodo');
 
 
-            // 刪除該項工作
-            $('#listTodo').on('click','.badge', function () {
-                $(this).closest('li').remove();
-            })
+            listTodo
+                // 將工作設為完成/未完成
+                .on('change', 'input[type="checkbox"]', function () {
+                    $(this).next('label').toggleClass('completed');
+                    countTodo();
+                })
+                // 刪除該項工作
+                .on('click', 'button', function () {
+                    $(this).closest('li').slideUp(500, function () {
+                        $(this).remove();
+                    });
+                    countTodo();
+                })
+                // 更改項目內容
+                .on('dblclick','li',function(){
+                    $(this).children('div').toggleClass('d-none').end().children('input').toggleClass('d-none');
+                })
+                .on('keypress','input[type=text]',function(event){
+                    if(event.keyCode == 13){
+                        const data = $(this).val();
+                        $(this).parent().find('label').text(data);
+                        $(this).toggleClass('d-none').parent('li').children('div').toggleClass('d-none');
+                    }
+                })
+
+
+
+
 
             // 清除完成工作
-            $('#buttonComplete').on('click', () => {
-                $('.completed').closest('li').remove();
+            $('#buttonComplete').on('click', function () {
+                listTodo.find(':checked').each(function () {
+                    $(this).closest('li').slideUp(500, function () {
+                        $(this).remove();
+                    })
+                });
             })
 
-            // 計算剩餘未完成工作
-            $(document).on('change',()=>{
-                let comTask = $('.completed').length;
-                let allTask = $('li').length;
-                $('strong span').text(`${allTask - comTask}`);
-            })
-            .on('click',()=>{
-                let comTask = $('.completed').length;
-                let allTask = $('li').length;
-                $('strong span').text(`${allTask - comTask}`);
-            })
+            // 計算未完成工作
+            function countTodo() {
+                const total = $('input[type="checkbox"]:not(":checked")').length;
+                $('strong span').text(total);
+            }
 
 
         });

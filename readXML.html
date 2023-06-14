@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+</head>
+
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-2"></div>
+            <div class="col-8">
+                <h2>jQuery練習</h2>
+                <input type="file" id="xmlFile">
+                <div id="div1" class="row row-cols-1 row-cols-md-3 g-4">
+
+                </div>
+            </div>
+            <div class="col-2"></div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"
+        integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
+    <script>
+        $(function () {
+            $('#xmlFile').on('change', function () {
+                const reader = new FileReader();
+                reader.addEventListener('load', function (event) {
+                    // 將讀取到的文件轉成XMLDOM物件
+                    const xmlDoc = $.parseXML(event.target.result);
+                    // console.log(xmlDoc);
+                    let i = 0;
+                    const docFrag = $(document.createDocumentFragment());
+                    $(xmlDoc).find('Section').each(function () {
+                        i += 1;
+                        if (i <= 20) {
+                            // stitle、xbody、img、address
+                            const title = $(this).children('stitle').text();
+                            const body = $(this).children('xbody').text().substring(0, 100);
+                            const img = $(this).find('img').first().text();
+                            const address = $(this).children('address').text();
+                            const datas = `
+                                <div class="col">
+                                    <div class="card h-100">
+                                        <img src="${img}" class="card-img-top" alt="${title}">
+                                        <div class="card-body">
+                                            <h5 class="card-title">${title}</h5>
+                                            <p class="card-text">${body}</p>
+                                        </div>
+                                        <div class="card-footer">
+                                            <small class="text-body-secondary">${address}</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            `
+                            docFrag.append(datas);
+                        }
+                        
+                    })
+                    $('#div1').html(docFrag);
+                })
+                reader.readAsText(this.files[0]);
+            })
+        })
+    </script>
+</body>
+
+</html>
