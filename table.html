@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+</head>
+
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-2"></div>
+            <div class="col-8">
+                <h2>jQuery練習</h2>
+                <button id="edit" data-bs-toggle="modal" data-bs-target="#userModal"
+                    class="btn btn-primary my-3">新增</button>
+                <table class="table table-bordered" id="userTable">
+                    <thead class="">
+                        <tr>
+                            <th>編號</th>
+                            <th>姓名</th>
+                            <th>電子郵件</th>
+                            <th>年齡</th>
+                            <th>編輯</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- <tr>
+                            <td>1</td>
+                            <td>Tom</td>
+                            <td>Tom@gmail.com</td>
+                            <td>30</td>
+                            <td>
+                                <button class="btn btn-secondary " id="edit">編輯</button>
+                                <button class="btn btn-danger" id="delete">刪除</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>Stanley</td>
+                            <td>Stanley@gmail.com</td>
+                            <td>29</td>
+                            <td>
+                                <button class="btn btn-secondary " id="edit">編輯</button>
+                                <button class="btn btn-danger" id="delete">刪除</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td>John</td>
+                            <td>John@gmail.com</td>
+                            <td>27</td>
+                            <td>
+                                <button class="btn btn-secondary " id="edit">編輯</button>
+                                <button class="btn btn-danger" id="delete">刪除</button>
+                            </td>
+                        </tr> -->
+                    </tbody>
+
+                </table>
+            </div>
+            <div class="col-2"></div>
+        </div>
+        <div class="modal fade" id="userModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">資料修改</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form>
+                            <div class="mb-3">
+                                <input type="hidden" id="id">
+                                <label for="name" class="col-form-label">姓名:</label>
+                                <input type="text" class="form-control" id="name">
+                            </div>
+                            <div class="mb-3">
+                                <label for="email" class="col-form-label">電子郵件:</label>
+                                <input type="text" class="form-control" id="email">
+                            </div>
+                            <div class="mb-3">
+                                <label for="age" class="col-form-label">年紀:</label>
+                                <input type="text" class="form-control" id="age">
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">關閉</button>
+                        <button type="button" class="btn btn-primary" id="buttonUpdate">修改</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"
+        integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
+    <script>
+        // $(document).ready(function(){ })
+
+        $(function () {
+
+
+            const users = [
+                { "name": "Tom", "email": "Tom@gmail.com", "age": 30 },
+                { "name": "Stanley", "email": "Stanley@gmail.com", "age": 29 },
+                { "name": "John", "email": "John@gmail.com", "age": 27 },
+                { "name": "Mary", "email": "Mary@gmail.com", "age": 28 }
+            ];
+
+            // 將資料從localStorage中讀出
+            const datas = localStorage.getItem("users") || [];
+            // console.log(users)
+            // JSON.parse(users) //會將JSON字串轉型成JSON物件
+            // console.log(JSON.parse(users));
+
+            // 刪除
+            // console.log(users);
+            // 刪除陣列中的某一筆資料
+            // users.splice(1,1);
+            // 修改 splice("從陣列中的第幾個位置","刪除幾筆資料","在那個位置加入資料")
+            // users.splice(0, 2, { "name": "Tom123", "email": "Tom123@gmail.com", "age": 30 });
+            // console.log(users);
+
+            // 顯示資料
+            function showUsers() {
+                const docFag = $(document.createDocumentFragment());  //建立一個空的物件
+                $.each(users, function (idx, user) {
+                    const { name, email, age } = user;
+                    const data = `
+                <tr>
+                            <td>${idx + 1}</td>
+                            <td>${name}</td>
+                            <td>${email}</td>
+                            <td>${age}</td>
+                            <td>
+                                <button class="btn btn-secondary " id="edit" data-bs-toggle="modal" data-bs-target="#userModal">編輯</button>
+                                <button class="btn btn-danger" id="delete">刪除</button>
+                            </td>
+                        </tr>`
+                    docFag.append(data);
+                })
+                $('#userTable>tbody').html(docFag);
+
+            }
+            showUsers();
+
+            // 編輯按鈕
+            $(document).on('click', '#edit', function () {
+                // alert('edit');
+                // console.log($(this).closest('tr').children('td:nth-child(1)').text());  //name
+                // console.log($(this).closest('tr').children('td:nth-child(2)').text());
+                // console.log($(this).closest('tr').children('td:nth-child(3)').text());
+                // console.log($(this).closest('tr').children('td:nth-child(4)').text());
+                const row = $(this).parents('tr');
+                const id = row.children('td:nth-child(1)').text(); //id
+                const name = row.children('td:nth-child(2)').text();
+                const email = row.children('td:nth-child(3)').text();
+                const age = row.children('td:nth-child(4)').text();
+                $('#id').val(id);
+                $('#name').val(name);
+                $('#email').val(email);
+                $('#age').val(age);
+                if (id === "") {
+                    $('#exampleModalLabel').text('資料新增');
+                    $('#buttonUpdate').text('新增');
+                } else {
+                    $('#exampleModalLabel').text('資料修改');
+                    $('#buttonUpdate').text('修改');
+
+                }
+            })
+
+            // 修改或新增資料
+            $('#buttonUpdate').on('click', function () {
+                // 根據隱藏欄位中是否友直來判斷需要新增或修改
+                let idx = $('#id').val();
+                // 將使用者新增/修改的資料包裝成user文件
+                const user = {
+                    "name": $('#name').val(),
+                    "email": $('#email').val(),
+                    "age": $('#age').val()
+                };
+                if (!$('#name').val()) {
+                    alert('請輸入姓名')
+                }
+                else if ($('#name').val() && idx === "") {
+                    // console.log('new');
+                    users.push(user);
+                } else {
+                    // 修改JSON資料
+                    // console.log('update');
+                    users.splice(idx - 1, 1, user);
+                }
+
+                //更新localStorage中的資料
+                localStorage.setItem("users", JSON.stringify(users));
+
+                //重新將JSON資料載入到網頁上
+                showUsers();
+                // 隱藏modal
+                $('#userModal').modal('hide');
+                $('input').val("");
+
+            })
+
+            // 刪除按鈕
+            $('#userTable').on('click', '#delete', function () {
+                // console.log($(this).closest('tr').children('td:nth-child(1)').text());
+                // console.log($(this).closest('tr').children('td:nth-child(2)').text());
+                // console.log($(this).closest('tr').children('td:nth-child(3)').text());
+                // console.log($(this).closest('tr').children('td:nth-child(4)').text());
+                const idx = $(this).parents('tr').children('td:nth-child(1)').text() - 1;
+                users.splice(idx, 1);
+                //更新localStorage中的資料
+                localStorage.setItem("users", JSON.stringify(users));
+
+                showUsers();
+
+            })
+
+
+        })
+    </script>
+</body>
+
+</html>
